@@ -14,6 +14,8 @@ public class Thruster : MonoBehaviour
     public float Maxhorizontal = 8f;
     public float MaxUp = 12f;
     public float MaxDown = -24f;
+    public float timeofactive = 6f;
+    public float rechargetime = 4f;
 
     void FixedUpdate()
     {
@@ -57,6 +59,17 @@ public class Thruster : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, MaxDown);
         }
 
+
+        if (timeleft>(-1*rechargetime)){
+            timeleft -= Time.deltaTime;
+        }
+        if (timeleft>0){
+            yAxis=1;
+        } 
+        else{
+            yAxis=0;
+        }
+        Debug.Log(timeleft);
     }
     // Start is called before the first frame update
     void Start()
@@ -68,18 +81,10 @@ public class Thruster : MonoBehaviour
     void Update()
     {   
         //print(timeleft);
-        if (timeleft>0){
-            timeleft -= Time.deltaTime;
-        }
-        if (timeleft>2){
-            yAxis=1;
-        } 
-        else{
-            yAxis=0;
-        }
-        if (Input.GetKey(KeyCode.J) && timeleft<=0) 
+
+        if (Input.GetKey(KeyCode.J) && timeleft<=(-1*rechargetime)) 
         {
-            timeleft = 5f;
+            timeleft = timeofactive;
         }
 
         xAxis = Input.GetAxis("Jetmove");
